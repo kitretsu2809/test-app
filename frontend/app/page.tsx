@@ -1,45 +1,34 @@
 'use client'
-import React , {useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const Home: React.FC = () => {
-  const [data, setData] = useState({
-    username: '',
-    password: '',
-    email: ''
-  });
 
-  const handleclick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+const Home:React.FC = ()=>{
+  let [Quizzes , setQuizzes] = useState([])
+
+  async function getquizzes (){
     try {
-      const response = await axios.post('http://localhost:8000/signup/', data);
-      console.log(response.data);
+      let response = await axios.get('http://localhost:8000/getquizzes/')
+      setQuizzes(response.data)
     } catch (error) {
-      console.log('error in sending request , server issue', error);
+      console.log('something goes wrong' , error)
     }
   }
 
-  const handlechange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value
-    });
-  }
+  useEffect(()=>{
+    getquizzes()
+  },[])
 
   return (
-    <main className="">
-      <div>
-        <h3>SignUp</h3>
-        <label>username</label>
-        <input placeholder="create your username" name="username" type="text" onChange={handlechange}></input>
-        <label>password</label>
-        <input placeholder="create your password" name="password" type="password" onChange={handlechange}></input>
-        <label>email</label>
-        <input placeholder="enter your email" name="email" type="email" onChange={handlechange}></input>
-        <button onClick={handleclick}>create</button>
-      </div>
-    </main>
-  );
+    <div>
+      {Quizzes.map((e)=>{
+        return (<div key={e.id}>
+          QuizName = {e.quiz_name}
+          QuizTopic = {e.quiz_topic}
+        </div>)
+      })}
+    </div>
+  )
 }
 
 export default Home

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Quizo",
@@ -13,12 +14,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <header>
-        <div>
-          
-        </div>
-      </header>
-      <body>{children}</body>
+      <body>
+        <header className="flex-col">
+            <div>
+              <h1>Quizzo</h1>
+              <Link href={'/'}>Home</Link>
+              <Link href={'/About'}>About</Link>
+            </div>
+            <div>
+              <Link href={'/Login'}>Login</Link>
+            </div>
+        </header>
+        {children}
+      </body>
     </html>
   );
 }
