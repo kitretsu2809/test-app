@@ -1,6 +1,8 @@
 'use client'
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Quecard from "@/app/components/questionshowingcard";
+import Navbar from "./components/Navbar";
 
 
 const Home:React.FC = ()=>{
@@ -21,11 +23,9 @@ const Home:React.FC = ()=>{
 
   return (
     <div>
+      <Navbar/>
       {Quizzes.map((e)=>{
-        return (<div key={e.id}>
-          QuizName = {e.quiz_name}
-          QuizTopic = {e.quiz_topic}
-        </div>)
+        return <Quecard key={e.id} quizname={e.quiz_name} quiztopic={e.quiz_topic} quizid={e.id} buttontext='take test'></Quecard>
       })}
     </div>
   )
