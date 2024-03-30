@@ -15,7 +15,7 @@ function Navbar() {
             </div>
         </div>
             <div>
-              <Link href='/Login' style={{marginRight:'1rem'}}>Login</Link>
+              <Link href='/Login' style={{marginRight:'1rem'}} id='log'>Login</Link>
             </div>
         </header>
   )

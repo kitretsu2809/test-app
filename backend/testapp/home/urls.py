@@ -7,5 +7,5 @@ urlpatterns = [
     path('getquizzes/' , views.get_quiz , name='quiz'),
     path('api/quizzes/<int:quiz_id>/questions/', views.QuizQuestionsAPIView.as_view(), name='quiz-questions'),
     path('api/submit_response/', views.submit_response, name='submit-response'),
-    path('api/yourquizes/' , views.get_quiz , name='activequiz'),
+    path('api/yourquizes/' , views.your_quiz , name='activequiz'),
 ]

@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Quecard from "@/app/components/questionshowingcard";
+import { useRouter } from 'next/navigation';
 
 export default function YourQuiz() {
+    const router = useRouter()
     const token = localStorage.getItem('accessToken')
     const [quiz,setquiz] = useState([])
 
@@ -23,6 +25,7 @@ export default function YourQuiz() {
             fetch()
         } catch (error) {
             console.log('error in fetching data',error)
+            router.push('/Login')
         }
     },[])
   return (

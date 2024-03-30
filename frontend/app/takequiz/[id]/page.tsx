@@ -1,7 +1,6 @@
 'use client'
 import GivenQuuiz from "@/app/components/quiztakingcard";
-import React from "react";
-import { useRouter } from "next/router";
+import React from "react"
 
 const Quiztaking : React.FC=()=>{
   const id = 1
