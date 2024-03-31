@@ -6,5 +6,6 @@ admin.site.register(Quiz)
 admin.site.register(Question)
 admin.site.register(Option)
 admin.site.register(UserResponseQuiz)
+admin.site.register(HaveGiven)
 
 

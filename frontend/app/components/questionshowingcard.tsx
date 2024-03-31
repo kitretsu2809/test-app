@@ -19,7 +19,13 @@ const Quecard : React.FC<quiztakingprops>=(props)=>{
         if(!token){
             router.push('/Login')
         }
-        router.push(`/takequiz/${data.quizid}`)
+        if(props.buttontext === "take test"){
+            router.push(`/takequiz/${data.quizid}`)
+        }
+        else{
+            router.push(`/getresult/${data.quizid}`)
+        }
+        
     }
     return(
         <div style={{height:'3rem',backgroundColor:'pink',display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',margin:'3px'}}>

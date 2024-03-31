@@ -13,7 +13,8 @@ export interface quiztakingprops {
     option3 : string,
     option1id: number,
     option2id : number,
-    option3id : number
+    option3id : number,
+    qtype:string
 }
 export interface userid{
     userid : number
