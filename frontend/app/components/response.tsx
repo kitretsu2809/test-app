@@ -4,14 +4,15 @@ import { quiztakingprops } from "@/types";
 
 const Questions: React.FC<quiztakingprops> = (props) => {
   const token = localStorage.getItem('accessToken');
-  const [selectedOption, setSelectedOption] = useState(0);
   const [integerans , setintegerans] = useState(-1)
+  const [rtext , setrtext] = useState('')
 let data = {}
 
 if(props.qtype === "integer_type"){
   data = {
     quiz_id: props.quizid,
     question_id: props.questionid,
+    user_response: integerans,
     givenint : integerans
   }
 }
@@ -19,7 +20,8 @@ else{
   data={
     quiz_id: props.quizid,
     question_id: props.questionid,
-    selected_option_id: selectedOption,
+    user_response : rtext,
+    givenint : integerans
   }
 }
 
@@ -43,11 +45,11 @@ else{
     <div>
         {props.qtype === "single_correct" ? (<div>
           <h1>{props.questiontext}</h1>
-          <input type="radio" name="option" value="1" onChange={(e) => setSelectedOption(e.target.value)} />
+          <input type="radio" name="option" value={props.option1} onChange={(e) => {setrtext(e.target.value)}} />
           <p>{props.option1}</p>
-          <input type="radio" name="option" value="2" onChange={(e) => setSelectedOption(e.target.value)} />
+          <input type="radio" name="option" value={props.option2} onChange={(e) => {setrtext(e.target.value)}} />
           <p>{props.option2}</p>
-          <input type="radio" name="option" value="3" onChange={(e) => setSelectedOption(e.target.value)} />
+          <input type="radio" name="option" value={props.option3} onChange={(e) => {setrtext(e.target.value)}} />
           <p>{props.option3}</p>
         </div>) : (<div>
           <h1>{props.questiontext}</h1>

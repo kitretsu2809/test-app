@@ -91,7 +91,7 @@ def submit_response(request):
     quiz_id = int(quiz_id)
     question_id = data.get('question_id')
     question_id = int(question_id)
-    selected_option_id = data.get('selected_option_id')
+    selected_option_text = data.get('user_response')
     integer_response = data.get('givenint')
 
     # Ensure all required fields are present
@@ -112,21 +112,21 @@ def submit_response(request):
                 user=user,
                 quiz=quiz,
                 question=question,
-                integer_response=integer_response
+                integer_response=integer_response,
+                user_response=selected_option_text
             )
         else:
             # For single correct or multiple correct type questions
-            if selected_option_id is None:
+            if selected_option_text is None:
                 return Response({'error': 'Selected option is required for single/multiple correct type question'},
                                 status=status.HTTP_400_BAD_REQUEST)
-            selected_option_id = int(selected_option_id)
-            selected_option = Option.objects.get(id=selected_option_id)
             # Save user response for single/multiple correct type question
             user_response = UserResponseQuiz.objects.create(
                 user=user,
                 quiz=quiz,
                 question=question,
-                selected_option=selected_option
+                user_response=selected_option_text,
+                integer_response=integer_response
             )
 
         # Serialize and return response
@@ -145,8 +145,28 @@ def your_quiz(request):
         print(userid)
         user = User.objects.get(id=userid)
         quizes = UserResponseQuiz.objects.filter(user=user)
-        print(quizes)
         serializer = UserResponseQuizSerializer(quizes , many=True)
         return JsonResponse(serializer.data ,safe=False , status=status.HTTP_200_OK)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def getresult(request , quizid):
+    authorization_header = request.META.get('HTTP_AUTHORIZATION')
+    token = authorization_header.split()[0]
+    payload = AccessToken(token).payload
+    userid = payload['user_id']
+    user = User.objects.get(id=userid)
+    quiz = Quiz.objects.get(id=quizid)
+    questions = Question.objects.filter(quiz=quiz)
+    correct = 0
+    for question in questions:
+        correctoption = Option.objects.get(question=question , is_correct=True)
+        userresponse = UserResponseQuiz.objects.filter(user=user , question=question)
+        if question.question_type == 'single_correct':
+            if str(userresponse[0]) == correctoption.option_text:
+                correct+=1
+        else:
+            if str(userresponse[0]) == str(correctoption.correctoption):
+                correct+=1
+    return Response({'correct' : str(correct)},status=status.HTTP_200_OK)

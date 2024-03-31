@@ -37,7 +37,6 @@ class UserResponseQuizSerializer(serializers.ModelSerializer):
         """
         question = data['question']
         question_type = question.question_type
-        selected_option = data.get('selected_option')
         user_response = data.get('user_response')
         integer_response = data.get('integer_response')
 
