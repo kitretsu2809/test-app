@@ -24,7 +24,7 @@ class QuizSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Quiz
-        fields = ['id', 'quiz_name', 'quiz_topic', 'questions']
+        fields = ['id', 'quiz_name', 'quiz_topic','quiz_time' ,'questions']
 
 class UserResponseQuizSerializer(serializers.ModelSerializer):
     class Meta:
@@ -53,3 +53,8 @@ class UserResponseQuizSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Selected_option is required for single/multiple correct type question.")
 
         return data
+
+class HaveGivenSerializer(serializers.ModelSerializer):
+    class META:
+        model = HaveGiven
+        fields = '__all__'

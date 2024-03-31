@@ -39,3 +39,8 @@ class UserResponseQuiz(models.Model):
     integer_response = models.IntegerField()
     def __str__(self):
         return (self.user_response)
+
+class HaveGiven(models.Model):
+    user = models.ForeignKey(User , on_delete=models.CASCADE)
+    quiz = models.ForeignKey(Quiz , on_delete=models.CASCADE)
+    status= models.BooleanField(default=False)

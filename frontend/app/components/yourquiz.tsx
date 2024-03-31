@@ -16,8 +16,8 @@ export default function YourQuiz() {
             }
         })
         let data = response.data
-        console.log(data)
-        setquiz(data)
+        console.log(data.quiz)
+        setquiz(data.quiz)
     }
 
     useEffect(()=>{
@@ -31,7 +31,7 @@ export default function YourQuiz() {
   return (
     <div>
       {quiz.map((elem)=>{
-        return <Quecard key={elem.id} quizname={elem.quiz_name} quiztopic={elem.quiz_topic} quizid={elem.id} buttontext='view result'></Quecard>
+        return <Quecard key={elem} quizname={elem} quiztopic={elem.quiz_topic} quizid={elem.id} buttontext='view result'></Quecard>
       })}
     </div>
   )

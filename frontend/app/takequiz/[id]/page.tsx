@@ -3,7 +3,7 @@ import GivenQuuiz from "@/app/components/quiztakingcard";
 import React from "react"
 
 const Quiztaking : React.FC=()=>{
-  const id = 2
+  const id = 3
   console.log(id)
 
   return (

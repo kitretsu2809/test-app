@@ -15,6 +15,7 @@ interface Quizid {
 }
 
 const GivenQuuiz: React.FC<Quizid> = (props) => {
+    const token = localStorage.getItem('accessToken')
     const router = useRouter()
     const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -28,7 +29,11 @@ const GivenQuuiz: React.FC<Quizid> = (props) => {
             async function getQuestions() {
                 try {
                     const response = await axios.get(
-                        `http://localhost:8000/api/quizzes/${props.qid}/questions/`
+                        `http://localhost:8000/api/quizzes/${props.qid}/questions/`,{
+                            headers : {
+                                'Authorization' : `${token}`
+                            }
+                        }
                     );
                     console.log(response.data);
                     setQuestions(response.data);

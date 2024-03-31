@@ -6,6 +6,7 @@ const Questions: React.FC<quiztakingprops> = (props) => {
   const token = localStorage.getItem('accessToken');
   const [integerans , setintegerans] = useState(-1)
   const [rtext , setrtext] = useState('')
+  const [buttonClicked, setButtonClicked] = useState(false);
 let data = {}
 
 if(props.qtype === "integer_type"){
@@ -33,6 +34,7 @@ else{
           'Authorization' : `${token}`
         }
       })
+      setButtonClicked(true)
       console.log(response.data);
       // Handle success (e.g., show a success message)
     } catch (error) {
@@ -55,7 +57,7 @@ else{
           <h1>{props.questiontext}</h1>
           <input type="number" onChange={(e)=> setintegerans(e.target.value)}/>
         </div>)}
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={handleSubmit} disabled={buttonClicked}>Submit</button>
     </div>
   );
 };
