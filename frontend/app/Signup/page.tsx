@@ -16,7 +16,7 @@ const Signup: React.FC = () => {
     try {
       const response = await axios.post('http://localhost:8000/signup/', data);
       console.log(response.data);
-      router.push('/Signup')
+      router.push('/Login')
     } catch (error) {
       console.log('error in sending request , server issue', error);
     }
