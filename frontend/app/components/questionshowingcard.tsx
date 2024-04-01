@@ -19,11 +19,17 @@ const Quecard : React.FC<quiztakingprops>=(props)=>{
         if(!token){
             router.push('/Login')
         }
-        if(props.buttontext === "take test"){
-            router.push(`/takequiz/${data.quizid}`)
-        }
-        else{
-            router.push(`/getresult/${data.quizid}`)
+
+        try {
+            if(props.buttontext === "take test"){
+                router.push(`/takequiz/${data.quizid}`)
+            }
+            else{
+                router.push(`/getresult/${data.quizid}`)
+            }
+        } catch (error) {
+            console.log('you are not authenticated')
+            router.push('/Login')
         }
         
     }

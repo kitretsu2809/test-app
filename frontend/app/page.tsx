@@ -8,6 +8,10 @@ import { useRouter } from "next/navigation";
 const Home:React.FC = ()=>{
   const router = useRouter()
   const token = localStorage.getItem('accessToken')
+  const status = localStorage.getItem('status')
+  if(!token){
+    router.push('/Login')
+  }
   let [Quizzes , setQuizzes] = useState([])
   let [givenquiz , setgivenquiz] = useState([])
 
@@ -21,14 +25,18 @@ const Home:React.FC = ()=>{
   }
 
   async function fetch(){
-    let response = await axios.get('http://localhost:8000/api/yourquizes/',{
-      headers :{
-        'Authorization' : `${token}`
-      }
-    })
-    let data = response.data
-    console.log(data.quiz)
-    setgivenquiz(data.quiz)
+    try {
+      let response = await axios.get('http://localhost:8000/api/yourquizes/',{
+        headers :{
+          'Authorization' : `${token}`
+        }
+      })
+      let data = response.data
+      console.log(data.quiz)
+      setgivenquiz(data.quiz)
+    } catch (error) {
+      console.log('error from sever',error)
+    }
   }
 
   useEffect(()=>{
@@ -43,7 +51,7 @@ const Home:React.FC = ()=>{
 
   return (
     <div>
-      <Navbar/>
+      <Navbar status={status}/>
       {Quizzes.map((e)=>{
         if (givenquiz.includes(e.quiz_name)) {
           return null;

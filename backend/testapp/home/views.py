@@ -53,12 +53,15 @@ def login(request):
         print(user)
 
         if user is not None:
+            if user.is_superuser:
+                power = "godbro"
+            else:
+                power = 'noob'
             refresh = RefreshToken.for_user(user)
-            print(refresh)
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'user': str(user)
+                'status': power
             }, status=status.HTTP_200_OK)
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -165,6 +168,8 @@ def your_quiz(request):
         print(userid)
         quiz=[]
         user = User.objects.get(id=userid)
+        if user.is_superuser:
+            print('lelo muh me')
         print(user)
         quizes = HaveGiven.objects.filter(user=user)
         for qui in quizes:
