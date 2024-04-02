@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import Quecard from "@/app/components/questionshowingcard";
+import { useRouter } from 'next/navigation';
 
 export default function YourQuiz() {
+    const router = useRouter()
     const token = localStorage.getItem('accessToken')
     const [quiz,setquiz] = useState([])
 
@@ -14,8 +16,8 @@ export default function YourQuiz() {
             }
         })
         let data = response.data
-        console.log(data)
-        setquiz(data)
+        console.log(data.quiz)
+        setquiz(data.quiz)
     }
 
     useEffect(()=>{
@@ -23,12 +25,13 @@ export default function YourQuiz() {
             fetch()
         } catch (error) {
             console.log('error in fetching data',error)
+            router.push('/Login')
         }
     },[])
   return (
     <div>
       {quiz.map((elem)=>{
-        return <Quecard key={elem.id} quizname={elem.quiz_name} quiztopic={elem.quiz_topic} quizid={elem.id} buttontext='view result'></Quecard>
+        return <Quecard key={elem} quizname={elem} quiztopic={elem.quiz_topic} quizid={elem.id} buttontext='view result'></Quecard>
       })}
     </div>
   )

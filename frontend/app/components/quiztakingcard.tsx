@@ -1,45 +1,80 @@
-'use client'
 import axios from "axios"; 
 import { useEffect, useState } from "react";
 import Questions from "./response";
+import { useRouter } from "next/navigation";
 
-interface quizid {
-    qid : number
+interface Question {
+    id: number;
+    question_text: string;
+    options: { id: number; option_text: string }[];
+    question_type: string;
 }
 
-const GivenQuuiz: React.FC<quizid>=(props) => {
-  const [questions, setQuestions] = useState([]);
+interface Quizid {
+    qid: number;
+}
 
-  useEffect(() => {
-    // Ensure quizid is available before making the API request
-    if (props.qid) {
-      async function getQuestions() {
-        try {
-          const response = await axios.get(
-            `http://localhost:8000/api/quizzes/${props.qid}/questions/`
-          );
-          console.log(response.data);
-          setQuestions(response.data);
-        } catch (error) {
-          console.log("Error fetching questions", error);
-        }
-      }
-      getQuestions();
+const GivenQuuiz: React.FC<Quizid> = (props) => {
+    const token = localStorage.getItem('accessToken')
+    const router = useRouter()
+    const [questions, setQuestions] = useState<Question[]>([]);
+
+    const handleclick = ()=>{
+      router.push('/yourquiz')
     }
-  },[]);
 
-  return (
-    <div>
-        {
-            questions.map((e)=>{
-                return (<div key={e.id}>
-                    <Questions quizid={props.qid} questionid={e.id} questiontext={e.question_text} option1={e.options[0].option_text} option2={e.options[1].option_text} option3={e.options[2].option_text} option1id={e.options[0].id} option2id={e.options[1].id} option3id={e.options[2].id}></Questions>
-                </div>)
-            })
+    useEffect(() => {
+        // Ensure quizid is available before making the API request
+        if (props.qid) {
+            async function getQuestions() {
+                try {
+                    const response = await axios.get(
+                        `http://localhost:8000/api/quizzes/${props.qid}/questions/`,{
+                            headers : {
+                                'Authorization' : `${token}`
+                            }
+                        }
+                    );
+                    console.log(response.data);
+                    setQuestions(response.data);
+                } catch (error) {
+                    console.log("Error fetching questions", error);
+                }
+            }
+            getQuestions();
         }
-    </div>
+    }, [props.qid]);
 
-  );
+    return (
+        <div>
+            {questions.map((question) => (
+                <div key={question.id}>
+                    {question.question_type === "integer_type" ? (
+                        <Questions
+                            quizid={props.qid}
+                            questionid={question.id}
+                            questiontext={question.question_text}
+                            qtype={question.question_type}
+                        />
+                    ) : (
+                        <Questions
+                            quizid={props.qid}
+                            questionid={question.id}
+                            questiontext={question.question_text}
+                            option1={question.options[0].option_text}
+                            option2={question.options[1].option_text}
+                            option3={question.options[2].option_text}
+                            option1id={question.options[0].id}
+                            option2id={question.options[1].id}
+                            option3id={question.options[2].id}
+                            qtype={question.question_type}
+                        />
+                    )}
+                </div>
+            ))}
+            <button onClick={handleclick}>Submit Quiz</button>
+        </div>
+    );
 };
 
 export default GivenQuuiz;
