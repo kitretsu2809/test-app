@@ -7,7 +7,8 @@ import '../globals.css'
 
 const Quecard : React.FC<quiztakingprops>=(props)=>{
     const router = useRouter()
-
+    console.log("props", props);
+    
 
     let data = {
         quizid : props.quizid,
@@ -25,6 +26,8 @@ const Quecard : React.FC<quiztakingprops>=(props)=>{
                 router.push(`/takequiz/${data.quizid}`)
             }
             else{
+                console.log("jhsbdfhsdbjh",data.quizid);
+                
                 router.push(`/getresult/${data.quizid}`)
             }
         } catch (error) {

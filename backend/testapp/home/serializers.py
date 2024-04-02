@@ -57,4 +57,4 @@ class UserResponseQuizSerializer(serializers.ModelSerializer):
 class HaveGivenSerializer(serializers.ModelSerializer):
     class META:
         model = HaveGiven
-        fields = '__all__'
+        fields = ['user' , 'quiz']

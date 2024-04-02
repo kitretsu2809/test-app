@@ -6,7 +6,7 @@ export default function Yourquiz() {
   return (
     <div>
       <Navbar/>
-      <YourQuiz/>
+      <YourQuiz />
     </div>
   )
 }

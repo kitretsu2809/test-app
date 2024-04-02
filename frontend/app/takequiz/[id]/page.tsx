@@ -1,13 +1,13 @@
 'use client'
 import GivenQuuiz from "@/app/components/quiztakingcard";
-import React from "react"
 
-const Quiztaking : React.FC=()=>{
-  const id = 3
+const Quiztaking = ({params}:{params : {id : string}})=>{
+  const id = params.id
+  Number.parseInt(id)
   console.log(id)
-
+  
   return (
-    <GivenQuuiz qid={id}></GivenQuuiz>
+    <GivenQuuiz qid={Number.parseInt(id)}></GivenQuuiz>
   )
 }
 

@@ -7,7 +7,7 @@ class Quiz(models.Model):
     quiz_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.quiz_name
+        return (self.quiz_name)
 
 class Question(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='questions')

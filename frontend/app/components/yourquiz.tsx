@@ -8,6 +8,7 @@ export default function YourQuiz() {
     const router = useRouter()
     const token = localStorage.getItem('accessToken')
     const [quiz,setquiz] = useState([])
+    const [quizid , setquizid] = useState([])
 
     async function fetch(){
         let response = await axios.get('http://localhost:8000/api/yourquizes/',{
@@ -18,6 +19,7 @@ export default function YourQuiz() {
         let data = response.data
         console.log(data.quiz)
         setquiz(data.quiz)
+        setquizid(data.quizid)
     }
 
     useEffect(()=>{
@@ -30,8 +32,8 @@ export default function YourQuiz() {
     },[])
   return (
     <div>
-      {quiz.map((elem)=>{
-        return <Quecard key={elem} quizname={elem} quiztopic={elem.quiz_topic} quizid={elem.id} buttontext='view result'></Quecard>
+      {quiz.map((elem , index)=>{
+        return <Quecard key={quizid[index]} quizname={elem} quizid={quizid[index]} buttontext='view result' ></Quecard>
       })}
     </div>
   )

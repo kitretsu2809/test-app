@@ -88,7 +88,7 @@ class QuizQuestionsAPIView(generics.ListAPIView):
         authorization_header = self.request.META.get('HTTP_AUTHORIZATION')
         if authorization_header:
             try:
-                token = authorization_header.split()[1]
+                token = authorization_header.split()[0]
                 payload = AccessToken(token).payload
                 user_id = payload['user_id']
                 user = User.objects.get(id=user_id)
@@ -97,9 +97,9 @@ class QuizQuestionsAPIView(generics.ListAPIView):
                 have_given.status = True
                 have_given.save()
             except:
-                raise PermissionDenied("Invalid or missing authorization token")
+                return Response({'invalid token'},status=status.HTTP_401_UNAUTHORIZED)
         else:
-            raise PermissionDenied("Authorization header is missing")
+            return Response({'authrization header not found'},status=status.HTTP_401_UNAUTHORIZED)
 
 
 
@@ -169,6 +169,7 @@ def your_quiz(request):
         userid = payload['user_id']
         print(userid)
         quiz=[]
+        quizid = []
         user = User.objects.get(id=userid)
         if user.is_superuser:
             print('lelo muh me')
@@ -176,8 +177,9 @@ def your_quiz(request):
         quizes = HaveGiven.objects.filter(user=user)
         for qui in quizes:
             quiz.append(str(qui.quiz))
+            quizid.append(str(qui.quiz.id))
         print(quiz)
-        return JsonResponse({'quiz':quiz} , status=status.HTTP_200_OK)
+        return JsonResponse({'quiz':quiz,'quizid':quizid} , status=status.HTTP_200_OK)
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 

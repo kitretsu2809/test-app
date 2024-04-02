@@ -19,3 +19,6 @@ export interface quiztakingprops {
 export interface userid{
     userid : number
 }
+export interface quiz_id {
+    quizid : number,
+}

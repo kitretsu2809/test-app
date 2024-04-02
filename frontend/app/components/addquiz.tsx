@@ -38,7 +38,7 @@ function Addquiz({ senddata }) {
         };
 
         senddata(data);
-        sethaveclicked(false)
+        sethaveclicked(true)
     };
 
     return (
