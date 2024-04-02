@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 function Addquiz({ senddata }) {
     const [type, setType] = useState('single_correct');
     const [question, setQuestion] = useState('');
+    let [haveclicked , sethaveclicked] = useState(false)
     const [options, setOptions] = useState({
         option1: '',
         option2: '',
@@ -37,6 +38,7 @@ function Addquiz({ senddata }) {
         };
 
         senddata(data);
+        sethaveclicked(false)
     };
 
     return (
@@ -64,7 +66,9 @@ function Addquiz({ senddata }) {
                     <input type='number' placeholder='Enter the correct integer' value={integerValue} onChange={handleIntegerChange} />
                 </div>
             )}
-            <button onClick={handleSubmit}>Add Quiz</button>
+            <button onClick={handleSubmit} disabled={haveclicked} id='btnclick'>{
+                haveclicked ? 'Added to queue' : 'Add question to queue'
+            }</button>
         </div>
     );
 }

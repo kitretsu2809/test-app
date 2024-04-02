@@ -199,3 +199,49 @@ def getresult(request , quizid):
             if str(userresponse[0]) == str(correctoption.correctoption):
                 correct+=1
     return Response({'correct' : str(correct)},status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def addquiz(request):
+    authorization_header = request.META.get('HTTP_AUTHORIZATION')
+    token = authorization_header.split()[0]
+    payload = AccessToken(token).payload
+    userid = payload['user_id']
+    user = User.objects.get(id=userid)
+    if user.is_superuser:
+        data = json.loads(request.body)
+        quizname = data.get('quizname')
+        quiztopic = data.get('quiztopic')
+        questions = data.get('questions')
+        quiz = Quiz.objects.create(
+            quiz_name=quizname,
+            quiz_topic=quiztopic
+        )
+        for question in questions:
+            questionmodel = Question.objects.create(
+                quiz=quiz,
+                question_text=question['question'],
+                question_type=question['questionType']
+            )
+            if question['questionType'] == 'integer_type':
+                option = Option.objects.create(
+                    question=questionmodel,
+                    option_text=question['integerValue'],
+                    is_correct=True,
+                    correctoption=question['integerValue']
+                )
+            else:
+                for i in range (1,4):
+                    if question['options'][f"option{i}"] == question['options']['correctOption'] :
+                        option = Option.objects.create(
+                            question=questionmodel,
+                            option_text = question['options'][f"option{i}"],
+                            is_correct=True
+                        )
+                    else:
+                        option = Option.objects.create(
+                            question=questionmodel,
+                            option_text=question['options'][f"option{i}"]
+                        )
+    else:
+        return Response({'sun be' : 'tu superuser nhi h'} , status=status.HTTP_403_FORBIDDEN)
+    return Response({'status' : 'mil gya'} , status=status.HTTP_200_OK)
