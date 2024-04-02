@@ -15,12 +15,13 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       const response = await axios.post("http://localhost:8000/login/", data);
-      const { access, refresh, status } = response.data;
+      const { access, refresh, status , user } = response.data;
 
       // Set access token and refresh token in local storage
       localStorage.setItem("accessToken", access);
       localStorage.setItem("refreshToken", refresh);
       localStorage.setItem('status' , status)
+      localStorage.setItem('user' , user)
 
       // Redirect to home page after successful login
       router.push("/");

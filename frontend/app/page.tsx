@@ -9,6 +9,7 @@ const Home:React.FC = ()=>{
   const router = useRouter()
   const token = localStorage.getItem('accessToken')
   const status = localStorage.getItem('status')
+  const user = localStorage.getItem('user')
   if(!token){
     router.push('/Login')
   }
@@ -51,7 +52,7 @@ const Home:React.FC = ()=>{
 
   return (
     <div>
-      <Navbar status={status}/>
+      <Navbar status={status} user={user}/>
       {Quizzes.map((e)=>{
         if (givenquiz.includes(e.quiz_name)) {
           return null;

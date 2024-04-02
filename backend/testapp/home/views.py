@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view , permission_classes
 from rest_framework.response import Response
 from django.contrib.auth.models import User
+from django.contrib.auth.views import LogoutView
 from rest_framework import status , generics
 import json
 from django.http import JsonResponse
@@ -61,7 +62,8 @@ def login(request):
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'status': power
+                'status': power,
+                'user' : str(user)
             }, status=status.HTTP_200_OK)
         else:
             return JsonResponse({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -245,3 +247,12 @@ def addquiz(request):
     else:
         return Response({'sun be' : 'tu superuser nhi h'} , status=status.HTTP_403_FORBIDDEN)
     return Response({'status' : 'mil gya'} , status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+def logout(request):
+    try:
+        # Use Django's built-in LogoutView to handle logout
+        logout_view = LogoutView.as_view()
+        return logout_view(request)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)

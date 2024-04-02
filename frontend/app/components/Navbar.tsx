@@ -1,13 +1,24 @@
-import React from 'react'
+'use client'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 interface status {
-  status : string
+  status : string,
+  user : string
 }
 
 const Navbar: React.FC<status> = (props) =>{
+  const router = useRouter()
+  const handlelogout =()=>{
+    localStorage.clear()
+    router.push('/Login')
+  }
+  let log = false
+  if(props.status === 'godbro' || props.status === 'noob'){
+    log = true
+  }
   return (
-    <header style={{backgroundColor:'yellow',display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'3rem'}}>
+    <div style={{backgroundColor:'yellow',display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'3rem'}}>
         <div style={{display:'flex',flexDirection:'row'}}>
             <div style={{marginLeft:'1rem',marginRight:'1rem'}}>
               <h1>Quizzo</h1>
@@ -20,9 +31,10 @@ const Navbar: React.FC<status> = (props) =>{
             </div>
         </div>
             <div>
-              <Link href='/Login' style={{marginRight:'1rem'}} id='log'>Login</Link>
+              {log ? (<button onClick={handlelogout} style={{marginRight:'1rem'}}>Logout</button>) : null}
+              <Link href='/Login' style={{marginRight:'1rem'}} id='log'>{log ? `Welcome ${props.user}` :  'Login'}</Link>
             </div>
-        </header>
+        </div>
   )
 }
 
