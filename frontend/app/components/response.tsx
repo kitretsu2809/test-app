@@ -44,21 +44,53 @@ else{
   };
 
   return (
+    <div className="bg-gray-100 p-4">
+  {props.qtype === "single_correct" ? (
     <div>
-        {props.qtype === "single_correct" ? (<div>
-          <h1>{props.questiontext}</h1>
-          <input type="radio" name="option" value={props.option1} onChange={(e) => {setrtext(e.target.value)}} />
-          <p>{props.option1}</p>
-          <input type="radio" name="option" value={props.option2} onChange={(e) => {setrtext(e.target.value)}} />
-          <p>{props.option2}</p>
-          <input type="radio" name="option" value={props.option3} onChange={(e) => {setrtext(e.target.value)}} />
-          <p>{props.option3}</p>
-        </div>) : (<div>
-          <h1>{props.questiontext}</h1>
-          <input type="number" onChange={(e)=> setintegerans(e.target.value)}/>
-        </div>)}
-        <button onClick={handleSubmit} disabled={buttonClicked}>Submit</button>
+      <h1 className="text-xl font-semibold">{props.questiontext}</h1>
+      <input
+        type="radio"
+        name="option"
+        value={props.option1}
+        onChange={(e) => setrtext(e.target.value)}
+        className="mr-2"
+      />
+      <p className="mb-2">{props.option1}</p>
+      <input
+        type="radio"
+        name="option"
+        value={props.option2}
+        onChange={(e) => setrtext(e.target.value)}
+        className="mr-2"
+      />
+      <p className="mb-2">{props.option2}</p>
+      <input
+        type="radio"
+        name="option"
+        value={props.option3}
+        onChange={(e) => setrtext(e.target.value)}
+        className="mr-2"
+      />
+      <p className="mb-2">{props.option3}</p>
     </div>
+  ) : (
+    <div>
+      <h1 className="text-xl font-semibold">{props.questiontext}</h1>
+      <input
+        type="number"
+        onChange={(e) => setintegerans(e.target.value)}
+        className="w-16 mt-2"
+      />
+    </div>
+  )}
+  <button
+    onClick={handleSubmit}
+    disabled={buttonClicked}
+    className="bg-blue-500 text-white px-4 py-2 rounded-md mt-4"
+  >
+    Submit
+  </button>
+</div>
   );
 };
 

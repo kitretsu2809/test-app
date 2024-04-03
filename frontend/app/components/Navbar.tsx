@@ -18,23 +18,41 @@ const Navbar: React.FC<status> = (props) =>{
     log = true
   }
   return (
-    <div style={{backgroundColor:'yellow',display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',height:'3rem'}}>
-        <div style={{display:'flex',flexDirection:'row'}}>
-            <div style={{marginLeft:'1rem',marginRight:'1rem'}}>
-              <h1>Quizzo</h1>
-            </div>
-            <div>
-                <Link href={'/'} style={{marginLeft:'1rem'}}>Home</Link>
-              <Link href={'/About'} style={{marginLeft:'1rem'}}>About</Link>
-              <Link href={'/yourquiz'} style={{marginLeft:'1rem'}}>Your quizzes</Link>
-              {props.status === 'godbro' && <Link href={'/addquiz'} style={{marginLeft:'1rem'}}>Add Quiz</Link>}
-            </div>
-        </div>
-            <div>
-              {log ? (<button onClick={handlelogout} style={{marginRight:'1rem'}}>Logout</button>) : null}
-              <Link href='/Login' style={{marginRight:'1rem'}} id='log'>{log ? `Welcome ${props.user}` :  'Login'}</Link>
-            </div>
-        </div>
+    <div className="bg-yellow-200 flex justify-between items-center h-12">
+      <div className="flex items-center ml-4">
+        <h1 className="text-xl font-bold">Quizzo</h1>
+      </div>
+      <div className="flex items-center mr-4">
+        <Link href="/">Home</Link>
+        <Link href="/About" className="ml-4">
+          About
+        </Link>
+        <Link href="/yourquiz" className="ml-4">
+          Your quizzes
+        </Link>
+        {loggedIn && (
+          <Link href="/addquiz" className="ml-4">
+            Add Quiz
+          </Link>
+        )}
+        {loggedIn && (
+          <button
+            onClick={handleLogout}
+            className="ml-4 bg-blue-500 text-white px-3 py-1 rounded"
+          >
+            Logout
+          </button>
+        )}
+        {!loggedIn && (
+          <Link href="/Login" className="ml-4" id="log">
+            Login
+          </Link>
+        )}
+        {loggedIn && (
+          <span className="ml-4">Welcome {props.user}</span>
+        )}
+      </div>
+    </div>
   )
 }
 

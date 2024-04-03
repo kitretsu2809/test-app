@@ -34,13 +34,15 @@ const Quecard : React.FC<quiztakingprops>=(props)=>{
         
     }
     return(
-        <div style={{height:'3rem',backgroundColor:'pink',display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center',margin:'3px'}}>
-            <div>
-                <h3>{props.quizname}</h3>
-                <h5>Topics : {props.quiztopic}</h5>
-            </div>
-            <button style={{backgroundColor:'aqua',borderRadius:'3pz',marginRight:'2rem',height:'2rem'}} onClick={handleclick}>{props.buttontext}</button>
+        <div className="h-12 bg-pink flex justify-between items-center p-3">
+        <div>
+          <h3 className="text-lg font-semibold">{props.quizname}</h3>
+          <h5 className="text-sm">Topics: {props.quiztopic}</h5>
         </div>
+        <button className="bg-aqua rounded-md h-8 px-3" onClick={handleclick}>
+          {props.buttontext}
+        </button>
+      </div>
     )
 }
 

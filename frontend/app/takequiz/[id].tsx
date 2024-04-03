@@ -1,11 +1,10 @@
 'use client'
 import GivenQuuiz from "@/app/components/quiztakingcard";
 import React from "react"
-
+import { useRouter } from "next/router";
 const Quiztaking : React.FC=()=>{
-  const id = 3
-  console.log(id)
-
+  const router = useRouter();
+  const { id } = router.query;
   return (
     <GivenQuuiz qid={id}></GivenQuuiz>
   )

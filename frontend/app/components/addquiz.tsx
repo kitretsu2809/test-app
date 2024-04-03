@@ -42,34 +42,77 @@ function Addquiz({ senddata }) {
     };
 
     return (
-        <div>
-            <h6>Question</h6>
-            <input type='text' placeholder='Enter the question' value={question} onChange={(e) => setQuestion(e.target.value)} /><br />
-            <select onChange={handleTypeChange} value={type}>
-                <option value={'single_correct'}>Single Correct</option>
-                <option value={'integer_type'}>Integer Type</option>
-            </select>
-            {type === 'single_correct' ? (
-                <div>
-                    <h4>Option 1</h4>
-                    <input type='text' placeholder='Option 1' value={options.option1} onChange={(e) => handleOptionChange(e, 'option1')} />
-                    <h4>Option 2</h4>
-                    <input type='text' placeholder='Option 2' value={options.option2} onChange={(e) => handleOptionChange(e, 'option2')} />
-                    <h4>Option 3</h4>
-                    <input type='text' placeholder='Option 3' value={options.option3} onChange={(e) => handleOptionChange(e, 'option3')} />
-                    <h4>Correct Option</h4>
-                    <input type='text' placeholder='Enter the correct option' value={options.correctOption} onChange={(e) => handleOptionChange(e, 'correctOption')} />
-                </div>
-            ) : (
-                <div>
-                    <h4>Correct Input</h4>
-                    <input type='number' placeholder='Enter the correct integer' value={integerValue} onChange={handleIntegerChange} />
-                </div>
-            )}
-            <button onClick={handleSubmit} disabled={haveclicked} id='btnclick'>{
-                haveclicked ? 'Added to queue' : 'Add question to queue'
-            }</button>
-        </div>
+        <div className="bg-gray-100 p-4">
+  <h6 className="text-lg font-semibold">Question</h6>
+  <input
+    type="text"
+    placeholder="Enter the question"
+    value={question}
+    onChange={(e) => setQuestion(e.target.value)}
+    className="w-full p-2 mt-2 border rounded-md"
+  />
+  <select
+    onChange={handleTypeChange}
+    value={type}
+    className="w-full p-2 mt-2 border rounded-md"
+  >
+    <option value="single_correct">Single Correct</option>
+    <option value="integer_type">Integer Type</option>
+  </select>
+  {type === "single_correct" ? (
+    <div>
+      <h4 className="mt-4">Options</h4>
+      <input
+        type="text"
+        placeholder="Option 1"
+        value={options.option1}
+        onChange={(e) => handleOptionChange(e, "option1")}
+        className="w-full p-2 mt-2 border rounded-md"
+      />
+      <input
+        type="text"
+        placeholder="Option 2"
+        value={options.option2}
+        onChange={(e) => handleOptionChange(e, "option2")}
+        className="w-full p-2 mt-2 border rounded-md"
+      />
+      <input
+        type="text"
+        placeholder="Option 3"
+        value={options.option3}
+        onChange={(e) => handleOptionChange(e, "option3")}
+        className="w-full p-2 mt-2 border rounded-md"
+      />
+      <input
+        type="text"
+        placeholder="Correct Option"
+        value={options.correctOption}
+        onChange={(e) => handleOptionChange(e, "correctOption")}
+        className="w-full p-2 mt-2 border rounded-md"
+      />
+    </div>
+  ) : (
+    <div>
+      <h4 className="mt-4">Correct Input</h4>
+      <input
+        type="number"
+        placeholder="Enter the correct integer"
+        value={integerValue}
+        onChange={handleIntegerChange}
+        className="w-full p-2 mt-2 border rounded-md"
+      />
+    </div>
+  )}
+  <button
+    onClick={handleSubmit}
+    disabled={haveclicked}
+    id="btnclick"
+    className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md"
+  >
+    {haveclicked ? "Added to queue" : "Add question to queue"}
+  </button>
+</div>
+
     );
 }
 

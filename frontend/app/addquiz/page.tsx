@@ -56,24 +56,52 @@ function Page() {
     ));
 
     return (
-        <div>
-            {!haveselected ? (
-                <div>
-                    <h4>Quiz Name</h4>
-                    <input type='text' name="quizname" placeholder='Enter the quiz name' onChange={handleqchangename}/>
-                    <h4>Quiz Topic</h4>
-                    <input type='text' name="quiztopic" placeholder='Enter the topic' onChange={handletchangename}/>
-                    <h4>Number of Questions</h4>
-                    <input type='number' placeholder='Enter the number of questions you want to add' onChange={handleChange} />
-                    <button onClick={handleClick}>Submit</button>
-                </div>
-            ) : (
-                <div>
-                    {addQuizComponents}
-                    <button onClick={handleAddQuiz}>Add Quiz</button>
-                </div>
-            )}
-        </div>
+        <div className="bg-gray-100 p-4">
+  {!haveselected ? (
+    <div>
+      <h4 className="text-lg font-semibold">Quiz Name</h4>
+      <input
+        type="text"
+        name="quizname"
+        placeholder="Enter the quiz name"
+        onChange={handleqchangename}
+        className="w-full p-2 mt-2 border rounded-md"
+      />
+      <h4 className="text-lg font-semibold mt-4">Quiz Topic</h4>
+      <input
+        type="text"
+        name="quiztopic"
+        placeholder="Enter the topic"
+        onChange={handletchangename}
+        className="w-full p-2 mt-2 border rounded-md"
+      />
+      <h4 className="text-lg font-semibold mt-4">Number of Questions</h4>
+      <input
+        type="number"
+        placeholder="Enter the number of questions you want to add"
+        onChange={handleChange}
+        className="w-full p-2 mt-2 border rounded-md"
+      />
+      <button
+        onClick={handleClick}
+        className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md"
+      >
+        Submit
+      </button>
+    </div>
+  ) : (
+    <div>
+      {addQuizComponents}
+      <button
+        onClick={handleAddQuiz}
+        className="bg-blue-500 text-white px-4 py-2 mt-4 rounded-md"
+      >
+        Add Quiz
+      </button>
+    </div>
+  )}
+</div>
+
     );
 }
 
