@@ -59,7 +59,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'testapp.urls'
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=30),
 }
 
 TEMPLATES = [
