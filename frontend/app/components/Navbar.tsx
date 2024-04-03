@@ -33,6 +33,9 @@ const Navbar: React.FC<status> = (props) =>{
       <Link href="/yourquiz" className="hover:underline">
         Your quizzes
       </Link>
+      <Link href="/addquiz" className="hover:underline">
+        Add quizzes
+      </Link>
       {props.status === "godbro" && (
         <Link href="/addquiz" className="hover:underline">
           Add Quiz
