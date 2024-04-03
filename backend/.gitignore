@@ -1,0 +1,4 @@
+./myenv
+./testapp/db.sqlite3
+./testapp/testapp/__pycache__
+./testapp/home/__pycache__
