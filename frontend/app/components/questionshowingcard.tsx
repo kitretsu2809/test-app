@@ -25,6 +25,9 @@ const Quecard : React.FC<quiztakingprops>=(props)=>{
             if(props.buttontext === "take test"){
                 router.push(`/takequiz/${data.quizid}`)
             }
+            else if(props.buttontext === "check test"){
+                router.push(`/checkquiz/checkingquiz/${data.quizid}`)
+            }
             else{
                 console.log("jhsbdfhsdbjh",data.quizid);
                 

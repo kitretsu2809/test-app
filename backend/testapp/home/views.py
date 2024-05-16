@@ -269,11 +269,41 @@ def addquiz(request):
         return Response({'sun be' : 'tu superuser nhi h'} , status=status.HTTP_403_FORBIDDEN)
     return Response({'status' : 'mil gya'} , status=status.HTTP_200_OK)
 
-@api_view(['POST'])
-def logout(request):
-    try:
-        # Use Django's built-in LogoutView to handle logout
-        logout_view = LogoutView.as_view()
-        return logout_view(request)
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET'])
+def havetocheck(request):
+    authorization_header = request.META.get('HTTP_AUTHORIZATION')
+    token = authorization_header.split()[0]
+    payload = AccessToken(token).payload
+    userid = payload['user_id']
+    user = User.objects.get(id=userid)
+    if user.is_superuser:
+        quizzes = Quiz.objects.filter(questions__question_type='paragraph_type').distinct()
+        serializer = QuizSerializer(quizzes , many=True)
+        return Response(serializer.data , status=status.HTTP_200_OK)
+    else:
+        return Response({'forbidden' : 'you are not admin'} , status=status.HTTP_403_FORBIDDEN)
+
+
+@api_view(['GET'])
+def getchecked(request , quizid):
+    authorization_header = request.META.get('HTTP_AUTHORIZATION')
+    token = authorization_header.split()[0]
+    payload = AccessToken(token).payload
+    userid = payload['user_id']
+    user = User.objects.get(id=userid)
+    if user.is_superuser:
+        paragraph_questions = Question.objects.filter(quiz_id=quizid, question_type='paragraph_type')
+        paragraph_responses = []
+        for question in paragraph_questions:
+            responses = []
+            user_responses = UserResponseQuiz.objects.filter(quiz_id=quizid, question=question)
+            for response in user_responses:
+                response_data = {'username': response.user.username, 'response': response.user_response}
+                responses.append(response_data)
+            paragraph_responses.append({'question': question.question_text, 'responses': responses})
+        serializer = CheckResponseSerializer(data={'paragraph_responses' : paragraph_responses})
+        print(serializer.is_valid())
+        if not serializer.is_valid():
+            return Response(serializer.data , status=status.HTTP_200_OK)
+    else:
+        return Response({'msg' : 'you are not an admin'} , status=status.HTTP_403_FORBIDDEN)

@@ -28,6 +28,7 @@ const Navbar: React.FC<status> = (props) =>{
               <Link href={'/About'} style={{marginLeft:'1rem'}}>About</Link>
               <Link href={'/yourquiz'} style={{marginLeft:'1rem'}}>Your quizzes</Link>
               {props.status === 'godbro' && <Link href={'/addquiz'} style={{marginLeft:'1rem'}}>Add Quiz</Link>}
+              {props.status === 'godbro' && <Link href={'/checkquiz'} style={{marginLeft:'1rem'}}>Check Quiz</Link>}
             </div>
         </div>
             <div>
