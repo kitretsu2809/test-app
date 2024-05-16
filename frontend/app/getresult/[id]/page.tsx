@@ -6,7 +6,6 @@ import Result from '@/app/components/result'
 
 const Results = ({params}:{params : {id : string}})=> {
   const id = params.id
-  // Number.parseInt(id)
   console.log("a",id)
 
   return (

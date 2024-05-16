@@ -58,3 +58,8 @@ class HaveGivenSerializer(serializers.ModelSerializer):
     class META:
         model = HaveGiven
         fields = ['user' , 'quiz']
+
+class ResponseSerializer(serializers.Serializer):
+    correct = serializers.IntegerField()
+    selectedoption = serializers.ListField(child=serializers.CharField())
+    correctoption = serializers.ListField(child=serializers.CharField())

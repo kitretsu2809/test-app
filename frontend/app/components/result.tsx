@@ -9,6 +9,8 @@ interface Quizid {
 
 const Result: React.FC<Quizid> = (props) =>  {
     const [correct , setcorrect] = useState(0)
+    const [selectedoption ,setselectedoption] = useState([])
+    const [correctedoption ,setcorrectedoption] = useState([])
     const token = localStorage.getItem('accessToken')
 
     const fetch =async ()=>{
@@ -20,6 +22,8 @@ const Result: React.FC<Quizid> = (props) =>  {
         let data = response.data
         console.log(data)
         setcorrect(data.correct)
+        setselectedoption(data.selectedoption)
+        setcorrectedoption(data.correctoption)
     }
     useEffect(()=>{
         try {
@@ -30,7 +34,14 @@ const Result: React.FC<Quizid> = (props) =>  {
     },[])
   return (
     <div>
-      you have scored : {correct}
+      <div style={{backgroundColor:'pink' , padding:'1rem'}}>
+        <b>YOU HAVE SCORED : {correct}</b>
+      </div>
+      {selectedoption.map((elem , index)=>{
+        return <div style={{backgroundColor:'brown' , color:'white'}} key={index}>
+            {index + 1}. Your answer is {elem} and correct answer is {correctedoption[index]}
+        </div>
+      })}
     </div>
   )
 }

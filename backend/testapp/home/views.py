@@ -160,7 +160,7 @@ def submit_response(request):
     except Exception as e:
         return JsonResponse({'success': False, 'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-api_view(['GET'])
+@api_view(['GET'])
 def your_quiz(request):
     try:
         authorization_header = request.META.get('HTTP_AUTHORIZATION')
@@ -192,17 +192,27 @@ def getresult(request , quizid):
     user = User.objects.get(id=userid)
     quiz = Quiz.objects.get(id=quizid)
     questions = Question.objects.filter(quiz=quiz)
+    selectedoption = []
+    correctedoption=[]
     correct = 0
     for question in questions:
         correctoption = Option.objects.get(question=question , is_correct=True)
         userresponse = UserResponseQuiz.objects.filter(user=user , question=question)
         if question.question_type == 'single_correct':
+            selectedoption.append(str(userresponse[0]))
+            correctedoption.append((correctoption.option_text))
             if str(userresponse[0]) == correctoption.option_text:
                 correct+=1
         else:
+            selectedoption.append(str(userresponse[0]))
+            correctedoption.append(str(correctoption.correctoption))
             if str(userresponse[0]) == str(correctoption.correctoption):
                 correct+=1
-    return Response({'correct' : str(correct)},status=status.HTTP_200_OK)
+    serializer = ResponseSerializer(data={'correct' : correct,'selectedoption' : selectedoption , 'correctoption' : correctedoption})
+    if serializer.is_valid():
+        return Response(serializer.data , status=status.HTTP_200_OK)
+    else:
+        return Response(serializer.errors , status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def addquiz(request):
