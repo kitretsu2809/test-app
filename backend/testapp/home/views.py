@@ -192,23 +192,32 @@ def getresult(request , quizid):
     user = User.objects.get(id=userid)
     quiz = Quiz.objects.get(id=quizid)
     questions = Question.objects.filter(quiz=quiz)
+    questioned = []
     selectedoption = []
     correctedoption=[]
     correct = 0
     for question in questions:
-        correctoption = Option.objects.get(question=question , is_correct=True)
-        userresponse = UserResponseQuiz.objects.filter(user=user , question=question)
+        userresponse = UserResponseQuiz.objects.filter(user=user , question=question).first()
         if question.question_type == 'single_correct':
-            selectedoption.append(str(userresponse[0]))
+            correctoption = Option.objects.get(question=question , is_correct=True)
+            questioned.append(question.question_text)
+            selectedoption.append(str(userresponse.user_response))
             correctedoption.append((correctoption.option_text))
-            if str(userresponse[0]) == correctoption.option_text:
+            if str(userresponse.user_response) == correctoption.option_text:
+                correct+=1
+        elif question.question_type == 'integer_type':
+            correctoption = Option.objects.get(question=question , is_correct=True)
+            questioned.append(question.question_text)
+            selectedoption.append(str(userresponse.user_response))
+            correctedoption.append(str(correctoption.correctoption))
+            if str(userresponse.user_response) == str(correctoption.correctoption):
                 correct+=1
         else:
-            selectedoption.append(str(userresponse[0]))
-            correctedoption.append(str(correctoption.correctoption))
-            if str(userresponse[0]) == str(correctoption.correctoption):
-                correct+=1
-    serializer = ResponseSerializer(data={'correct' : correct,'selectedoption' : selectedoption , 'correctoption' : correctedoption})
+            if userresponse.integer_response == -1 :
+                return Response({'msg' : 'results are pending from admin side'} , status=status.HTTP_201_CREATED)
+            else:
+                correct += userresponse.integer_response
+    serializer = ResponseSerializer(data={'correct' : correct,'questioned' : questioned,'selectedoption' : selectedoption , 'correctoption' : correctedoption})
     if serializer.is_valid():
         return Response(serializer.data , status=status.HTTP_200_OK)
     else:
@@ -243,7 +252,7 @@ def addquiz(request):
                     is_correct=True,
                     correctoption=question['integerValue']
                 )
-            else:
+            elif question['questionType'] == 'single_correct':
                 for i in range (1,4):
                     if question['options'][f"option{i}"] == question['options']['correctOption'] :
                         option = Option.objects.create(

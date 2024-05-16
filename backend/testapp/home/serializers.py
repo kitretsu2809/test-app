@@ -61,5 +61,6 @@ class HaveGivenSerializer(serializers.ModelSerializer):
 
 class ResponseSerializer(serializers.Serializer):
     correct = serializers.IntegerField()
+    questioned = serializers.ListField(child=serializers.CharField())
     selectedoption = serializers.ListField(child=serializers.CharField())
     correctoption = serializers.ListField(child=serializers.CharField())

@@ -31,10 +31,13 @@ function Addquiz({ senddata }) {
             questionType: type,
             options,
             correctOption: options.correctOption
-        } : {
+        } : type === 'integer_type' ? {
             question,
             questionType: type,
             integerValue
+        }:{
+            question,
+            questionType : type
         };
 
         senddata(data);
@@ -48,6 +51,7 @@ function Addquiz({ senddata }) {
             <select onChange={handleTypeChange} value={type}>
                 <option value={'single_correct'}>Single Correct</option>
                 <option value={'integer_type'}>Integer Type</option>
+                <option value={'paragraph_type'}>Paragraph Type</option>
             </select>
             {type === 'single_correct' ? (
                 <div>
@@ -60,11 +64,13 @@ function Addquiz({ senddata }) {
                     <h4>Correct Option</h4>
                     <input type='text' placeholder='Enter the correct option' value={options.correctOption} onChange={(e) => handleOptionChange(e, 'correctOption')} />
                 </div>
-            ) : (
+            ) : type =='integer_type' ? (
                 <div>
                     <h4>Correct Input</h4>
                     <input type='number' placeholder='Enter the correct integer' value={integerValue} onChange={handleIntegerChange} />
                 </div>
+            ) :(
+                null
             )}
             <button onClick={handleSubmit} disabled={haveclicked} id='btnclick'>{
                 haveclicked ? 'Added to queue' : 'Add question to queue'

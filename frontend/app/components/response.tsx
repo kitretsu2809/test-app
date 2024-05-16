@@ -53,9 +53,12 @@ else{
           <p>{props.option2}</p>
           <input type="radio" name="option" value={props.option3} onChange={(e) => {setrtext(e.target.value)}} />
           <p>{props.option3}</p>
-        </div>) : (<div>
+        </div>) : props.qtype === 'integer_type' ? (<div>
           <h1>{props.questiontext}</h1>
           <input type="number" onChange={(e)=> setintegerans(e.target.value)}/>
+        </div>) : (<div>
+          <h1>{props.questiontext}</h1>
+          <input type="text" onChange={(e)=> setrtext(e.target.value)}/>
         </div>)}
         <button onClick={handleSubmit} disabled={buttonClicked}>Submit</button>
     </div>

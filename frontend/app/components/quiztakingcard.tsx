@@ -24,7 +24,6 @@ const GivenQuuiz: React.FC<Quizid> = (props) => {
     }
 
     useEffect(() => {
-        // Ensure quizid is available before making the API request
         if (props.qid) {
             async function getQuestions() {
                 try {
@@ -56,7 +55,7 @@ const GivenQuuiz: React.FC<Quizid> = (props) => {
                             questiontext={question.question_text}
                             qtype={question.question_type}
                         />
-                    ) : (
+                    ) : question.question_type === 'single_correct' ? (
                         <Questions
                             quizid={props.qid}
                             questionid={question.id}
@@ -69,6 +68,8 @@ const GivenQuuiz: React.FC<Quizid> = (props) => {
                             option3id={question.options[2].id}
                             qtype={question.question_type}
                         />
+                    ): (
+                        <Questions quizid={props.qid} questionid={question.id} questiontext={question.question_text} qtype={question.question_type}/>
                     )}
                 </div>
             ))}

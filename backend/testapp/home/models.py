@@ -14,7 +14,7 @@ class Question(models.Model):
     question_text = models.CharField(max_length=200)
     QUESTION_TYPE_CHOICES = [
         ('single_correct', 'Single Correct'),
-        ('multiple_correct', 'Multiple Correct'),
+        ('paragraph_type', 'Paragraph Type'),
         ('integer_type', 'Integer Type'),
     ]
     question_type = models.CharField(max_length=20, choices=QUESTION_TYPE_CHOICES , default='single_correct')
@@ -35,10 +35,10 @@ class UserResponseQuiz(models.Model):
     user = models.ForeignKey(User , on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz , on_delete=models.CASCADE)
     question = models.ForeignKey(Question , on_delete=models.CASCADE)
-    user_response = models.CharField(max_length=100 , default='') 
+    user_response = models.TextField(default='')
     integer_response = models.IntegerField()
     def __str__(self):
-        return (self.user_response)
+        return f"{self.user_response} - {self.integer_response}"
 
 class HaveGiven(models.Model):
     user = models.ForeignKey(User , on_delete=models.CASCADE)
