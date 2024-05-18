@@ -65,9 +65,10 @@ class ResponseSerializer(serializers.Serializer):
     selectedoption = serializers.ListField(child=serializers.CharField())
     correctoption = serializers.ListField(child=serializers.CharField())
 
-class ResponseSerializer(serializers.Serializer):
+class ResponsedSerializer(serializers.Serializer):
     question_text = serializers.CharField(max_length=200)
     responses = serializers.ListField(child=serializers.CharField())
+    questionid = serializers.IntegerField()
 
 class CheckResponseSerializer(serializers.Serializer):
-    paragraph_responses = serializers.ListField(child=ResponseSerializer())
+    paragraph_responses = serializers.ListField(child=ResponsedSerializer())

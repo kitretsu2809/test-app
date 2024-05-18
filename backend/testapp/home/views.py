@@ -295,15 +295,24 @@ def getchecked(request , quizid):
         paragraph_questions = Question.objects.filter(quiz_id=quizid, question_type='paragraph_type')
         paragraph_responses = []
         for question in paragraph_questions:
+            print(question.id)
             responses = []
             user_responses = UserResponseQuiz.objects.filter(quiz_id=quizid, question=question)
             for response in user_responses:
                 response_data = {'username': response.user.username, 'response': response.user_response}
                 responses.append(response_data)
-            paragraph_responses.append({'question': question.question_text, 'responses': responses})
+            paragraph_responses.append({'question': question.question_text, 'responses': responses , 'questionid' : question.id})
         serializer = CheckResponseSerializer(data={'paragraph_responses' : paragraph_responses})
-        print(serializer.is_valid())
         if not serializer.is_valid():
             return Response(serializer.data , status=status.HTTP_200_OK)
     else:
         return Response({'msg' : 'you are not an admin'} , status=status.HTTP_403_FORBIDDEN)
+
+@api_view(['POST'])
+def gotchecked(request , username , questionid):
+    user = User.objects.get(username=username)
+    userresponse = UserResponseQuiz.objects.filter(user=user , question_id=questionid).first()
+    userresponse.integer_response = int(json.loads(request.body).get('marks'))
+    userresponse.save()
+    return Response({'msg' : 'marrks of this user has been saved'} , status=status.HTTP_202_ACCEPTED)
+    

@@ -11,5 +11,6 @@ urlpatterns = [
     path('api/yourquizes/<int:quizid>/' , views.getresult , name='result'),
     path('api/addquiz/' , views.addquiz , name='addquiz'),
     path('api/checkquiz/' , views.havetocheck , name='checkquiz'),
-    path('api/checkquiz/<int:quizid>/' , views.getchecked , name='getcheck')
+    path('api/checkquiz/<int:quizid>/' , views.getchecked , name='getcheck'),
+    path('api/getcheck/<str:username>/<int:questionid>/' , views.gotchecked , name='gotchecked')
 ]

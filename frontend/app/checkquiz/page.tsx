@@ -1,5 +1,5 @@
 'use client'
-import React,{useState , useEffect, use} from 'react'
+import React,{useState , useEffect} from 'react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import Quecard from '../components/questionshowingcard'
