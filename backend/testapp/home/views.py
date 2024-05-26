@@ -12,8 +12,12 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken,AccessToken
 from .models import *
 from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.http import require_GET
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from django.shortcuts import render
 
+def test_websocket(request):
+    return render(request, 'test_websocket.html')
 
 
 @api_view(['POST'])
